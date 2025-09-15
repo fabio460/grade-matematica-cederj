@@ -54,7 +54,7 @@ export default function CardPeriodos({periodo,lista,grupo, horario, diaDaSemana}
                       <div>{disciplina.preRequisito.split(',').map((e,key)=><div key={key}>{e}</div>)}</div>
                     </div>                    
                     } arrow placement="right">
-                    <span> {disciplina.nome}</span>          
+                    <span> {disciplina.nome} - {disciplina.periodo}° período</span>          
                   </Tooltip>                     
               </div>          
           })

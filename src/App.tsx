@@ -6,8 +6,9 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import { handleHabilitado, limpaStorage } from './metodosGerais';
 
 function App() {
-  
-  const lista:Disciplina[] = JSON.parse(localStorage.getItem("listaStorage") as string) ? JSON.parse(localStorage.getItem("listaStorage") as string) : listaDisciplinas
+
+  const listaOrdenada = listaDisciplinas.sort((a,b) => (a.nome < b.nome) ? -1 : (a.nome > b.nome)? 1 : 0)
+  const lista:Disciplina[] = JSON.parse(localStorage.getItem("listaStorage") as string) ? JSON.parse(localStorage.getItem("listaStorage") as string) : listaOrdenada
   const listaDoisFiltrada = lista.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 2);
   const listaTresFiltrada = listaDoisFiltrada.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 3);
   const listaQuatroFiltrada = listaTresFiltrada.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 4);
