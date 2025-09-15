@@ -48,7 +48,7 @@ export default function CardPeriodos({periodo,lista,grupo, horario, diaDaSemana}
                 } 
                   label={disciplina.habilitado ? '' : ''}
                  />
-                  <Tooltip title={disciplina.habilitado ? '' : 
+                  <Tooltip title={
                     <div>
                       <h3 style={{textAlign:"center"}}>Pré-requisito</h3>
                       <div>{disciplina.preRequisito.split(',').map((e,key)=><div key={key}>{e}</div>)}</div>
