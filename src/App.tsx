@@ -4,7 +4,7 @@ import GradeResponsiva from './Componentes/gradeResponsiva';
 import { Fab } from '@mui/material';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import { handleHabilitado, limpaStorage } from './metodosGerais';
-import { useEffect, useState } from 'react';
+
 function App() {
   
   const lista:Disciplina[] = JSON.parse(localStorage.getItem("listaStorage") as string) ? JSON.parse(localStorage.getItem("listaStorage") as string) : listaDisciplinas
@@ -18,9 +18,7 @@ function App() {
   const listaNoveFiltrada = listaOitoFiltrada.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 9);
   const listaDezFiltrada = listaNoveFiltrada.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 10);
   
-  function filtraDisciplina(params:Disciplina[], requisito:string) {
-    
-  }
+
   handleHabilitado(lista) 
 
   return (

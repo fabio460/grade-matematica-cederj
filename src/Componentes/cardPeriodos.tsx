@@ -1,9 +1,8 @@
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import type { Disciplina } from './listaDeMaterias';
-import { handleHabilitado, preRequisito, trocaObjeto } from '../metodosGerais';
-import { Checkbox, FormControlLabel, IconButton, Tooltip } from '@mui/material';
-import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
+import { trocaObjeto } from '../metodosGerais';
+import { Checkbox, FormControlLabel, Tooltip } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
