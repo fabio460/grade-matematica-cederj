@@ -90,3 +90,17 @@ export function handleHabilitado(lista: Disciplina[]) {
 ) 
 }
 
+export function getDisciplina(nome:string, lista:Disciplina[]) {
+    return lista.filter(e=>e.nome === nome)[0]
+}
+export function setNomeDaDisciplinaStorage(nome:string, nomeStorage:string) {
+    localStorage.setItem(nomeStorage,nome)
+}
+
+export function getNomeDaDisciplinaStorage(nome:string) {
+   return localStorage.getItem(nome)
+}
+
+export function removeNomeDaDisciplinaStorage(nome:string) {
+    localStorage.removeItem(nome)
+}

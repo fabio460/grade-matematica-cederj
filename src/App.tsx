@@ -6,7 +6,7 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import { handleHabilitado, limpaStorage } from './metodosGerais';
 
 function App() {
-  const quantidadeTotalDeDisciplinas = listaDisciplinas.length;
+  const quantidadeTotalDeDisciplinas = listaDisciplinas.filter(e=>e.tipo==="Obrigatória").length;
   
   const listaOrdenada = listaDisciplinas.sort((a,b) => (a.nome < b.nome) ? -1 : (a.nome > b.nome)? 1 : 0)
   const lista:Disciplina[] = JSON.parse(localStorage.getItem("listaStorage") as string) ? JSON.parse(localStorage.getItem("listaStorage") as string) : listaOrdenada
@@ -19,8 +19,9 @@ function App() {
   const listaOitoFiltrada = listaSeteFiltrada.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 8);
   const listaNoveFiltrada = listaOitoFiltrada.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 9);
   const listaDezFiltrada = listaNoveFiltrada.filter((disciplina) => disciplina.selecionado === false || disciplina.indicadorPeriodo >= 10);
+  const quantidadeDasDisciplinasCursadas = lista.filter((disciplina) => disciplina.selecionado === true).length;
+  const restastanteDisciplinas = quantidadeTotalDeDisciplinas - lista.filter((disciplina) => disciplina.selecionado === true).length;
   
-  const restastanteDisciplinas = lista.filter((disciplina) => disciplina.selecionado === false).length;
 
   handleHabilitado(lista) 
 
@@ -36,7 +37,7 @@ function App() {
           <div style={{textAlign:"center", backgroundColor:"#1976d2", color:"#fff", padding:"10px"}}>
             Você selecionou {lista.filter((disciplina) => disciplina.selecionado === true).length} {lista.filter((disciplina) => disciplina.selecionado === true).length === 1 ? 'disciplina' : 'disciplinas'}.
             <div>
-                Você já cursou {quantidadeTotalDeDisciplinas - restastanteDisciplinas} {quantidadeTotalDeDisciplinas - restastanteDisciplinas === 1 ? 'disciplina' : 'disciplinas'} de um total de {quantidadeTotalDeDisciplinas} {quantidadeTotalDeDisciplinas === 1 ? 'disciplina' : 'disciplinas'}. e ainda faltam {restastanteDisciplinas} {restastanteDisciplinas === 1 ? 'disciplina' : 'disciplinas'} para você concluir o curso.  
+                Você já cursou {quantidadeDasDisciplinasCursadas} {quantidadeTotalDeDisciplinas - restastanteDisciplinas === 1 ? 'disciplina' : 'disciplinas'} de um total de {quantidadeTotalDeDisciplinas} {quantidadeTotalDeDisciplinas === 1 ? 'disciplina' : 'disciplinas'} obrigatórias. e ainda faltam {restastanteDisciplinas} {restastanteDisciplinas === 1 ? 'disciplina' : 'disciplinas'} para você concluir o curso.  
              </div>
           </div>
           :

@@ -3,6 +3,7 @@ import Paper from '@mui/material/Paper';
 import type { Disciplina } from './listaDeMaterias';
 import { trocaObjeto } from '../metodosGerais';
 import { Checkbox, FormControlLabel, Tooltip } from '@mui/material';
+import SelectMaterias from './selectMaterias';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -20,14 +21,16 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function CardPeriodos({periodo,lista,grupo, horario, diaDaSemana}:{lista:Disciplina[],periodo:number, grupo?:'G1'|'G2',horario?:'manhã (9:30 até 12:00)'|'tarde (13:30 até 16:00)',diaDaSemana?:'sábado'|'domingo',}) {
       
       const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {          
-        const objString = event.target.name;
-        const objJson:Disciplina = JSON.parse(objString) as Disciplina;
-        objJson.selecionado = event.target.checked;
+        const objString = event.target?.name? event.target.name : event;
+        const objJson:Disciplina = JSON.parse(objString as string) as Disciplina;
+        objJson.selecionado = event.target?.checked ? event.target?.checked : !objJson?.selecionado;
         trocaObjeto(objJson,periodo)
       };
   return (
     <Item>
       <h3 style={{textAlign:'center'}}>{diaDaSemana} - {horario}</h3>
+      {/* <SelectMaterias handleChange2={handleChange} lista={lista} diaDaSemana={diaDaSemana as string} grupo={grupo as string} horario={horario as string}/> */}
+      <br />
       {
           lista.map((disciplina, key)=>{
               if(disciplina.grupo===grupo
