@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import TelaInicial from './telaInicial.tsx';
+import { RouterProvider } from 'react-router';
+import { router } from './Componentes/routes.tsx';
 
 const darkTheme = createTheme({
   palette: {
@@ -14,7 +15,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
         <ThemeProvider theme={darkTheme}>
           <CssBaseline />
-          <TelaInicial />
+          <RouterProvider router={router} />
         </ThemeProvider>
   </StrictMode>,
 )

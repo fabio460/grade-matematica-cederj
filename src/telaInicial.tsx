@@ -1,16 +1,9 @@
-import React from 'react'
-import PrimeiroPeriodo from './Componentes/primeiroPeriodo'
-import { getUsuarioApi } from './api/usuarioApi'
-
+import GerenciadorGrade from './Componentes/gerenciadorGrade'
 export default function TelaInicial() {
-  async function getUsuario() {
-    const r = await getUsuarioApi()
-    console.log(r)
-  }
-  getUsuario()
+
   return (
     <div>
-        <PrimeiroPeriodo/>
+        <GerenciadorGrade/>
     </div>
   )
 }
