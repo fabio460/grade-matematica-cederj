@@ -1,4 +1,3 @@
-import React from 'react';
 
 // Tipagem das propriedades (Props) aceitas pelo componente
 interface ContadorMateriasProps {

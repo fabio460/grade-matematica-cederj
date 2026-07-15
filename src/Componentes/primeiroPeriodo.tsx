@@ -1,9 +1,9 @@
-import * as React from 'react';
+
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { Card, CardActions, CardContent, CardHeader, IconButton } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader } from '@mui/material';
 import { listaDisciplinas } from './listaDeMaterias';
 import { alterarSelecaoDisciplina, g1DomingoManha, g1DomingoTarde, g1SabadoManha, g1SabadoTarde, g2DomingoManha, g2DomingoTarde, g2SabadoManha, g2SabadoTarde, getDisciplinaByCodigo } from '../metodosGerais';
 
