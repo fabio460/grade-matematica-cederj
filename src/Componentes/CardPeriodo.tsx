@@ -104,7 +104,12 @@ export default function CardPeriodo({
                 >
                   <div style={{ fontWeight: 'bold' }}>{m.nome}</div>
                   <div style={{ fontSize: '10px', marginTop: '2px', color: rule.deveBloquear ? '#ff4d4f' : (m.selecionado ? (tema === 'escuro' ? '#a2e8a2' : '#0050b3') : cores.textoSecundario) }}>
-                    {rule.deveBloquear ? '🔒 Meta Cumprida' : m.codigo}
+                    {rule.deveBloquear ? '🔒 Meta Cumprida' :
+                     <div style={{display:'flex' , justifyContent:'space-between'}}>
+                        <div>{m.codigo}</div>
+                        <div>{m.tipo}</div>  
+                     </div>
+                    }
                   </div>
                 </button>
               );
