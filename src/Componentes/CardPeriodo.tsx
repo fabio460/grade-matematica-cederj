@@ -97,8 +97,17 @@ export default function CardPeriodo({
                 }}
               >
                 <div style={{ fontWeight: 'bold' }}>{m.nome}</div>
-                <div style={{ fontSize: '10px', color: m.selecionado ? (tema === 'escuro' ? '#a2e8a2' : '#0050b3') : cores.textoSecundario, marginTop: '2px' }}>
-                  {m.codigo}
+                <div style={{ 
+                  fontSize: '10px', 
+                  color: m.selecionado ? (tema === 'escuro' ? '#a2e8a2' : '#0050b3') : cores.textoSecundario,
+                  marginTop: '2px',
+                  display:"flex",
+                  justifyContent:'space-between', 
+                }}>
+                    <div>
+                      {m.codigo} - <span>{m.periodo}° período</span>
+                    </div>
+                    <span>{m.tipo}</span>
                 </div>
               </button>
             ))}

@@ -5,7 +5,6 @@ import { obterMapaCores } from './cores';
 import Header from './header';
 
 export default function LayoutBase() {
-  // Gerencia o tema diretamente dentro do Layout Base
   const [tema, setTema] = useState<'claro' | 'escuro'>(() => {
     return localStorage.getItem('grade_tema') === 'claro' ? 'claro' : 'escuro';
   });
@@ -23,9 +22,16 @@ export default function LayoutBase() {
     return iniciais;
   });
 
+  // Estado para a quantidade personalizada de optativas que o usuário quer concluir
+  const [metaOptativas, setMetaOptativas] = useState<number>(() => {
+    const salva = localStorage.getItem('grade_meta_optativas');
+    return salva ? parseInt(salva, 10) : 2;
+  });
+
   useEffect(() => { localStorage.setItem('grade_tema', tema); }, [tema]);
   useEffect(() => { localStorage.setItem('grade_disciplinas', JSON.stringify(disciplinas)); }, [disciplinas]);
   useEffect(() => { localStorage.setItem('grade_alocacoes', JSON.stringify(alocacaoMaterias)); }, [alocacaoMaterias]);
+  useEffect(() => { localStorage.setItem('grade_meta_optativas', metaOptativas.toString()); }, [metaOptativas]);
 
   const handleReset = () => {
     if (window.confirm("Deseja resetar todos os dados?")) {
@@ -33,26 +39,46 @@ export default function LayoutBase() {
       const iniciais: Record<string, number> = {};
       listaInicial.forEach(d => { if (d.selecionado) iniciais[d.codigo] = d.periodo; });
       setAlocacaoMaterias(iniciais);
+      setMetaOptativas(2);
     }
   };
 
-  // Calcula as cores aqui dentro de forma segura
-  const cores = obterMapaCores(tema);
+  // --- LÓGICA DA REGRA DE FORMATURA ---
+  const materiasObrigatorias = disciplinas.filter(d => d.tipo === "Obrigatória");
+  const todasObrigatoriasConcluidas = materiasObrigatorias.length > 0 && materiasObrigatorias.every(d => d.selecionado);
 
+  const optativasConcluidas = disciplinas.filter(
+    d => d.selecionado && (d.tipo === "Optativa Matemática" || d.tipo === "Optativa Pedagógica")
+  ).length;
+
+  const alunoFormado = todasObrigatoriasConcluidas && optativasConcluidas >= metaOptativas;
+
+  const cores = obterMapaCores(tema);
+  const totalMateriasObrigatorias = disciplinas.filter(e=>e.tipo === 'Obrigatória')
   return (
     <div style={{ backgroundColor: cores.bgPagina, minHeight: '100vh', transition: 'all 0.25s ease' }}>
       <Header 
         tema={tema}
         setTema={setTema}
-        materiasConcluidas={disciplinas.filter(d => d.selecionado).length}
-        totalMaterias={disciplinas.length}
+        materiasConcluidas={disciplinas.filter(d => d.selecionado && d.tipo === 'Obrigatória').length}
+        totalMaterias={totalMateriasObrigatorias.length}
         onReset={handleReset}
         cores={cores}
+        metaOptativas={metaOptativas}
+        setMetaOptativas={setMetaOptativas}
+        optativasConcluidas={optativasConcluidas}
       />
-      
       <div style={{ padding: '12px 10px', boxSizing: 'border-box' }}>
-        {/* Repassa os dados para as páginas filhas via context do React Router */}
-        <Outlet context={{ disciplinas, setDisciplinas, alocacaoMaterias, setAlocacaoMaterias, cores, tema }} />
+        <Outlet context={{ 
+          disciplinas, 
+          setDisciplinas, 
+          alocacaoMaterias, 
+          setAlocacaoMaterias, 
+          cores, 
+          tema,
+          alunoFormado,
+          metaOptativas
+        }} />
       </div>
     </div>
   );
