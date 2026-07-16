@@ -1,21 +1,27 @@
-import { createBrowserRouter } from "react-router";
-import LayoutBase from "./LayoutBase";
-import GerenciadorGrade from "./gerenciadorGrade";
-import TelaIsencoes from "./TelaIsencoes";
+
+import { createBrowserRouter } from 'react-router';
+import LayoutBase from './LayoutBase';
+import GerenciadorGrade from './gerenciadorGrade';
+import TelaIsencoes from './TelaIsencoes';
+import TelaInstrucoes from './TelaInstrucoes';
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <LayoutBase />, // O Header fica fixo aqui
+    element: <LayoutBase />,
     children: [
       {
-        index: true, // Caminho padrão "/"
+        index: true,
         element: <GerenciadorGrade />
       },
       {
-        path: "isencoes", // Caminho "/isencoes"
-        element: <TelaIsencoes  />
+        path: "isencoes",
+        element: <TelaIsencoes />
+      },
+      {
+        path: "instrucoes", // Nova Rota Cadastrada
+        element: <TelaInstrucoes />
       }
     ]
   }
