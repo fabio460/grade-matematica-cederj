@@ -54,9 +54,13 @@ export default function QuadranteHorario({ titulo, materias, onToggle, cores, te
                    :
                     <div style={{display:'flex' , justifyContent:'space-between'}}>
                         <div>{m.codigo}</div>
-                        <div style={{
-                          color:m.tipo === 'Obrigatória' ? cores.borderMateriaSelecionada:cores.optativa
-                        }}>{m.tipo}</div>   
+                       <div style={{
+                            color:m.tipo === 'Obrigatória' ?
+                            cores.borderMateriaSelecionada:
+                            m.tipo === 'Optativa Matemática' ? cores.optativaPedagogica: cores.optativaMatemárica
+                        }}>
+                            {m.tipo}
+                        </div>  
                     </div>
                   }
                 </div>

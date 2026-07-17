@@ -108,10 +108,12 @@ export default function CardPeriodo({
                      <div style={{display:'flex' , justifyContent:'space-between'}}>
                         <div>{m.codigo}</div>
                         <div style={{
-                          color:m.tipo === 'Obrigatória' ?
-                          cores.borderMateriaSelecionada:
-                          m.tipo === 'Optativa Matemática' ? cores.optativaPedagogica: cores.optativaMatemárica
-                        }}>{m.tipo}</div>  
+                            color:m.tipo === 'Obrigatória' ?
+                            cores.borderMateriaSelecionada:
+                            m.tipo === 'Optativa Matemática' ? cores.optativaPedagogica: cores.optativaMatemárica
+                        }}>
+                            {m.tipo}
+                        </div>  
                      </div>
                     }
                   </div>
