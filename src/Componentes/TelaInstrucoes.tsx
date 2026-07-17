@@ -8,7 +8,7 @@ interface GradeContext {
 export default function TelaInstrucoes() {
   const { cores } = useOutletContext<GradeContext>();
 
-  return (
+  return (-
     <div style={{ backgroundColor: cores.bgCardPeriodo, borderRadius: '10px', padding: '25px', boxShadow: cores.boxShadow, transition: 'all 0.25s ease', maxWidth: '800px', margin: '0 auto' }}>
       <div style={{ borderBottom: `1px solid ${cores.borderMateria}`, paddingBottom: '12px', marginBottom: '20px' }}>
         <h2 style={{ margin: 0, fontSize: '22px', color: cores.textoPrincipal }}>📖 Guia de Uso do Simulador</h2>

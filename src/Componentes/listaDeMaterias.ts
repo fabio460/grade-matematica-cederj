@@ -797,9 +797,6 @@ export const listaDisciplinas:Disciplina[] = [
      tipo: "Optativa Pedagógica",
      provaPresencial: true,
      selecionado: false,
-     grupo:"G1",
-     diaDaSemana:"sábado",
-     horario:"tarde (13:30 até 16:00)",
      indicadorPeriodo: 0,
      habilitado: false    
   },
