@@ -221,7 +221,7 @@ export const listaDisciplinas:Disciplina[] = [
      provaPresencial: true,
      selecionado: false,
      grupo: "G2",
-     diaDaSemana: "sábado",
+     diaDaSemana: 'domingo',
      horario: "tarde (13:30 até 16:00)" ,
      indicadorPeriodo: 0,
      habilitado: false,  
