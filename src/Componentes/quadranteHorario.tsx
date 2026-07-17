@@ -40,12 +40,25 @@ export default function QuadranteHorario({ titulo, materias, onToggle, cores, te
                 }}
               >
                 <div style={{ fontWeight: 'bold', marginBottom: '2px' }}>{m.nome}</div>
-                <div style={{ fontSize: '10px', color: rule.deveBloquear ? '#ff4d4f' : (m.selecionado ? (tema === 'escuro' ? '#a2e8a2' : '#0050b3') : cores.textoSecundario) }}>
-                  {rule.deveBloquear ? '🔒 Meta Cumprida' :
-                  <div style={{display:'flex' , justifyContent:'space-between'}}>
-                      <div>{m.codigo}</div>
-                      <div>{m.tipo}</div>  
-                  </div>}
+                <div style={{ 
+                     fontSize: '10px', color: rule.deveBloquear ? '#ff4d4f' :
+                     (m.selecionado ? (tema === 'escuro' ? '#a2e8a2' :
+                        '#0050b3') : cores.textoSecundario) 
+                     }}>
+                  {rule.deveBloquear ? 
+                   
+                    <div style={{display:'flex' , justifyContent:'space-between'}}>
+                        <div> '🔒 Meta Cumprida'</div>
+                        <div>{m.tipo}</div>  
+                    </div>
+                   :
+                    <div style={{display:'flex' , justifyContent:'space-between'}}>
+                        <div>{m.codigo}</div>
+                                                <div style={{
+                          color:m.tipo === 'Obrigatória' ? cores.borderMateriaSelecionada:cores.optativa
+                        }}>{m.tipo}</div>   
+                    </div>
+                  }
                 </div>
               </button>
             );

@@ -86,7 +86,7 @@ export default function CardPeriodo({
       {materiasSemHorario.length > 0 && (
         <div style={{ marginTop: '15px', backgroundColor: cores.bgColunaGrupo, padding: '12px', borderRadius: '8px' }}>
           <h3 style={{ margin: '0 0 10px 0', color: '#faad14', borderBottom: '2px solid #faad14', paddingBottom: '3px', fontSize: '14px', textAlign: 'center' }}>
-            Matérias EAD / Sem Horário Fixo
+            Sem provas presenciais
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
             {materiasSemHorario.map(m => {
@@ -107,7 +107,11 @@ export default function CardPeriodo({
                     {rule.deveBloquear ? '🔒 Meta Cumprida' :
                      <div style={{display:'flex' , justifyContent:'space-between'}}>
                         <div>{m.codigo}</div>
-                        <div>{m.tipo}</div>  
+                        <div style={{
+                          color:m.tipo === 'Obrigatória' ?
+                          cores.borderMateriaSelecionada:
+                          m.tipo === 'Optativa Matemática' ? cores.optativaPedagogica: cores.optativaMatemárica
+                        }}>{m.tipo}</div>  
                      </div>
                     }
                   </div>

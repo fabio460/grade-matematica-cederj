@@ -13,5 +13,7 @@ export function obterMapaCores(tema: 'claro' | 'escuro') {
     textoSecundario: tema === 'escuro' ? '#bbb' : '#555',
     textoMateriaSelecionada: tema === 'escuro' ? '#52c41a' : '#1890ff',
     boxShadow: tema === 'escuro' ? '0 4px 12px rgba(0,0,0,0.2)' : '0 4px 12px rgba(0,0,0,0.05)',
+    optativaPedagogica: tema === 'escuro' ? '#ff9307' : '#fcad1c',
+    optativaMatemárica:tema === 'escuro' ? '#ea07ff' : '#e21cfc',
   };
 }

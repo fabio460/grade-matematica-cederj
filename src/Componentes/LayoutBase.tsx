@@ -64,6 +64,7 @@ export default function LayoutBase() {
         totalMaterias={totalMateriasObrigatorias.length}
         onReset={handleReset}
         cores={cores}
+        disciplinas={disciplinas}
         metaOptativas={metaOptativas}
         setMetaOptativas={setMetaOptativas}
         optativasConcluidas={optativasConcluidas}

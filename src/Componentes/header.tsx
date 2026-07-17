@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router';
+import type { Disciplina } from './listaDeMaterias';
+
 
 interface HeaderProps {
   tema: 'claro' | 'escuro';
@@ -11,16 +13,26 @@ interface HeaderProps {
   metaOptativas: number;
   setMetaOptativas: React.Dispatch<React.SetStateAction<number>>;
   optativasConcluidas?: number;
+  disciplinas:Disciplina[]
 }
 
 export default function Header({ 
-  tema, setTema, materiasConcluidas, totalMaterias, onReset, cores, metaOptativas, setMetaOptativas 
+  tema, setTema, materiasConcluidas, totalMaterias, disciplinas,onReset, cores, metaOptativas, setMetaOptativas 
 }: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // --- CÁLCULO DINÂMICO DA PORCENTAGEM DO PROGRESSO ---
-  const porcentagem = totalMaterias > 0 ? Math.round((materiasConcluidas / totalMaterias) * 100) : 0;
+  // --- CÁLCULO DINÂMICO REAL CONSIDERANDO AS OPTATIVAS ---
+  
+  // 1. Conta apenas as obrigatórias que estão de fato na lista
+  const totalObrigatorias = disciplinas.filter(d => d.tipo === "Obrigatória").length;
+  
+  // 2. O total real do curso passa a ser as Obrigatórias + a Meta de Optativas digitada pelo usuário
+  const totalMateriasReal = totalObrigatorias + metaOptativas;
+
+  // 3. Calcula a porcentagem em cima desse novo total flutuante
+  const porcentagem = totalMateriasReal > 0 ? Math.round((materiasConcluidas / totalMateriasReal) * 100) : 0;
+
 
   return (
     <header style={{ 
@@ -35,7 +47,7 @@ export default function Header({
             Simulador de Grade
           </h1>
           <p style={{ margin: '3px 0 0 0', color: cores.textoSecundario, fontSize: '13px' }}>
-            Matérias cursadas: <strong>{materiasConcluidas} de {totalMaterias}</strong> ({porcentagem}%)
+            Matérias cursadas: <strong>{materiasConcluidas} de {totalMateriasReal}</strong> ({porcentagem}%)
           </p>
         </div>
 
@@ -57,14 +69,14 @@ export default function Header({
 
       {/* ⚠️ NOVA SEÇÃO: BARRA DE PROGRESSO FLUIDA */}
       <div style={{ width: '100%', backgroundColor: tema === 'escuro' ? '#333340' : '#e8e8e8', borderRadius: '10px', height: '10px', overflow: 'hidden', position: 'relative' }}>
-        <div style={{ 
-          width: `${porcentagem}%`, 
-          // Fica verde brilhante ao se formar, se não usa o azul/ciano padrão do tema
-          backgroundColor: porcentagem === 100 ? '#52c41a' : (tema === 'escuro' ? '#61dafb' : '#1890ff'), 
-          height: '100%', 
-          borderRadius: '10px', 
-          transition: 'width 0.4s ease-in-out, background-color 0.3s' 
-        }} />
+      <div style={{ 
+        width: `${porcentagem > 100 ? 100 : porcentagem}%`, 
+        backgroundColor: materiasConcluidas >= totalMateriasReal ? '#52c41a' : (tema === 'escuro' ? '#61dafb' : '#1890ff'), 
+        height: '100%', 
+        borderRadius: '10px', 
+        transition: 'width 0.4s ease-in-out, background-color 0.3s' 
+      }} />
+
       </div>
 
       {/* Esteira de navegação horizontal para celular */}
