@@ -17,7 +17,7 @@ interface HeaderProps {
 }
 
 export default function Header({ 
-  tema, setTema, materiasConcluidas, totalMaterias, disciplinas,onReset, cores, metaOptativas, setMetaOptativas 
+  tema, setTema, materiasConcluidas, disciplinas,onReset, cores, metaOptativas, setMetaOptativas 
 }: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
