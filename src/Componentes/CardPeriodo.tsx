@@ -1,7 +1,7 @@
-import ContadorMaterias from "./contadorMaterias";
-import type { Disciplina } from "./listaDeMaterias";
-import QuadranteHorario from "./quadranteHorario";
 
+import { type Disciplina } from './listaDeMaterias';
+import ContadorMaterias from './contadorMaterias';
+import QuadranteHorario from './quadranteHorario';
 
 interface CardPeriodoProps {
   periodo: number;
@@ -11,18 +11,16 @@ interface CardPeriodoProps {
   materiasSemHorario: Disciplina[];
   obterMateriasParaOQuadrante: (grupo: "G1" | "G2" | "SEM_GRUPO", dia?: 'sábado' | 'domingo', turno?: 'manhã' | 'tarde') => Disciplina[];
   toggleSelecao: (materia: Disciplina) => void;
-  optativasAtuaisConcluidas: number; // Nova prop
-  metaOptativas: number; // Nova prop
+  optativasAtuaisConcluidas: number;
+  metaOptativas: number;
 }
 
 export default function CardPeriodo({
   periodo, tema, cores, materiasDoPeriodo, materiasSemHorario, obterMateriasParaOQuadrante, toggleSelecao, optativasAtuaisConcluidas, metaOptativas
 }: CardPeriodoProps) {
   
-  // Verifica se o aluno atingiu a cota máxima estipulada de optativas
   const atingiuMetaOptativas = optativasAtuaisConcluidas >= metaOptativas;
 
-  // Função auxiliar para injetar estilo de marca d'água e travar clique em optativas excedentes
   const aplicarRegraBotaoOptativa = (m: Disciplina) => {
     const ehOptativa = m.tipo === "Optativa Matemática" || m.tipo === "Optativa Pedagógica";
     const deveBloquear = ehOptativa && atingiuMetaOptativas && !m.selecionado;
@@ -32,13 +30,21 @@ export default function CardPeriodo({
       estiloMateria: deveBloquear ? {
         opacity: 0.35,
         cursor: 'not-allowed',
-        pointerEvents: 'none' as const, // Remove fisicamente a capacidade de clique
+        pointerEvents: 'none' as const,
         position: 'relative' as const,
-        background: tema === 'escuro' ? '#22222a' : '#f5f5f5',
+        backgroundColor: cores.bgBotaoMateria,
         border: '1px dashed #ff4d4f'
       } : {}
     };
   };
+
+  // ⚠️ ANALISA SE HÁ ALGUMA MATÉRIA EAD SELECIONADA PARA ATIVAR O LARANJA
+  const possuiEadSelecionada = materiasSemHorario.some(m => m.selecionado);
+
+  // Configura a borda externa inteligente do bloco EAD
+  const bordaEadBloco = possuiEadSelecionada
+    ? '2px solid #faad14'
+    : `1px solid ${tema === 'escuro' ? '#3e3e4f' : '#e8e8e8'}`;
 
   return (
     <div style={{ backgroundColor: cores.bgCardPeriodo, borderRadius: '10px', padding: '12px', boxShadow: cores.boxShadow, transition: 'all 0.25s ease', width: '100%', boxSizing: 'border-box' }}>
@@ -82,11 +88,28 @@ export default function CardPeriodo({
         </div>
       </div>
 
-      {/* Bloco de Disciplinas EAD */}
+      {/* Bloco de Disciplinas EAD Adaptado com Borda Inteligente */}
       {materiasSemHorario.length > 0 && (
-        <div style={{ marginTop: '15px', backgroundColor: cores.bgColunaGrupo, padding: '12px', borderRadius: '8px' }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#faad14', borderBottom: '2px solid #faad14', paddingBottom: '3px', fontSize: '14px', textAlign: 'center' }}>
-            Sem provas presenciais
+        <div style={{ 
+          marginTop: '15px', 
+          backgroundColor: cores.bgColunaGrupo, 
+          padding: '12px', 
+          borderRadius: '8px',
+          border: bordaEadBloco, // ⚠️ Borda dinâmica aplicada
+          transition: 'all 0.25s ease',
+          boxShadow: possuiEadSelecionada ? '0 0 8px rgba(250,173,20,0.2)' : 'none'
+        }}>
+          <h3 style={{ 
+            margin: '0 0 10px 0', 
+            color: '#faad14', 
+            borderBottom: '2px solid #faad14', 
+            paddingBottom: '3px', 
+            fontSize: '14px', 
+            textAlign: 'center',
+            fontWeight: possuiEadSelecionada ? 'bold' : 'normal',
+            transition: 'all 0.2s'
+          }}>
+            Não presenciais!
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px' }}>
             {materiasSemHorario.map(m => {
@@ -95,27 +118,31 @@ export default function CardPeriodo({
                 <button
                   key={m.codigo} onClick={() => toggleSelecao(m)} disabled={rule.deveBloquear}
                   style={{
-                    padding: '10px', borderRadius: '4px', textAlign: 'left', cursor: rule.deveBloquear ? 'not-allowed' : 'pointer',
+                    width: '100%', padding: '10px', borderRadius: '4px', textAlign: 'left', cursor: rule.deveBloquear ? 'not-allowed' : 'pointer',
                     border: m.selecionado ? `1px solid ${cores.borderMateriaSelecionada}` : `1px solid ${cores.borderMateria}`,
                     backgroundColor: m.selecionado ? cores.bgMateriaSelecionada : cores.bgBotaoMateria,
                     color: m.selecionado ? cores.textoMateriaSelecionada : cores.textoPrincipal, fontSize: '12px',
+                    fontWeight: m.selecionado ? 'bold' : 'normal',
+                    transition: 'all 0.15s ease',
                     ...rule.estiloMateria
                   }}
                 >
-                  <div style={{ fontWeight: 'bold' }}>{m.nome}</div>
-                  <div style={{ fontSize: '10px', marginTop: '2px', color: rule.deveBloquear ? '#ff4d4f' : (m.selecionado ? (tema === 'escuro' ? '#a2e8a2' : '#0050b3') : cores.textoSecundario) }}>
-                    {rule.deveBloquear ? '🔒 Meta Cumprida' :
-                     <div style={{display:'flex' , justifyContent:'space-between'}}>
-                        <div>{m.codigo}</div>
+                  <div style={{ fontWeight: 'bold', marginBottom: '2px' }}>{m.nome}</div>
+                  <div style={{ fontSize: '10px', color: rule.deveBloquear ? '#ff4d4f' : (m.selecionado ? (tema === 'escuro' ? '#a2e8a2' : '#0050b3') : cores.textoSecundario) }}>
+                    {rule.deveBloquear ? '🔒 Optativas concluídas' : (
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div>{m.codigo} - {m.periodo}° período</div>
                         <div style={{
-                            color:m.tipo === 'Obrigatória' ?
-                            cores.borderMateriaSelecionada:
-                            m.tipo === 'Optativa Matemática' ? cores.optativaPedagogica: cores.optativaMatemárica
+                          color: m.tipo === 'Obrigatória' ?
+                            cores.borderMateriaSelecionada :
+                            m.tipo === 'Optativa Matemática' ?
+                              cores.optativaPedagogica :
+                              cores.optativaMatemárica
                         }}>
-                            {m.tipo}
-                        </div>  
-                     </div>
-                    }
+                          {m.tipo}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </button>
               );

@@ -331,7 +331,7 @@ export const listaDisciplinas:Disciplina[] = [
      codigo: "EAD01085",
      nome: "Cálculo III",
      cargaHoraria: 60,
-     preRequisito: "Matemática Básica,Pré-Cálculo,Cálculo I,Cálculo II,Geometria Analítica",
+     preRequisito: "Cálculo II,Geometria Analítica",
      universidade: "UFF",
      tipo: "Obrigatória",
      provaPresencial: true,
