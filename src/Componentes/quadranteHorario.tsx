@@ -53,7 +53,7 @@ export default function QuadranteHorario({ titulo, materias, onToggle, cores, te
       
       {materias.length === 0 ? (
         <p style={{ margin: 0, fontSize: '11px', color: '#8c8c8c', fontStyle: 'italic', textAlign: 'center' }}>
-          Liberada em outro bloco
+          Não há materias disponíveis!
         </p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
